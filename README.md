@@ -1,7 +1,18 @@
 # Graalvm Install script
 
-GOLOK KU [Python](https://www.python.org/) 3 script to install Graalvm 8/11
+GOLOK KU [Python](https://www.python.org/) 3 script to install [Graalvm]() 8/11
 Requirement : All already packaged
+
+### Feature
+ - Install Graalvm java latest version using [Github API](https://www.graalvm.org/)
+ - Easy to install
+ 
+### Todo :
+ - ~~Add termux install support~~
+ - ~~Add windows install support~~
+ - ~~Make Code more readable~~ Thanks [@f77-droid](https://github.com/f77-droid)
+ - Add option install location
+ - ???
 ### Installation
 #### Debian-Ubuntu
 ```sh
@@ -26,13 +37,6 @@ Graavlm located at `/data/data/com.termux/files/usr/bin/java/`
 
 Windows
 Graavlm located at `C:\Java`
-
-### Todo :
- - ~~Add termux install support~~
- - ~~Add windows install support~~
- - ~~Make Code more readable~~ Thanks [@f77-droid](https://github.com/f77-droid)
- - Add option install location
- - ???
 
 Note this is only tested on ubuntu WSL 1 20.04 
 if you found any problem you can [Report here](https://github.com/GOLOKKU/shortcode/issues)
