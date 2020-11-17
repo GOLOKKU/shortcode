@@ -1,7 +1,6 @@
 # Graalvm Install script
 
 GOLOK KU [Python](https://www.python.org/) 3 script to install [Graalvm]() 8/11
-Requirement : All already packaged
 
 ### Feature
  - Install Graalvm java latest version using [Github API](https://www.graalvm.org/)
@@ -14,6 +13,9 @@ Requirement : All already packaged
  - Add option install location
  - ???
 ### Installation
+Requirement : All already packaged
+
+Installation GUIDE
 #### Debian-Ubuntu
 ```sh
 wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.py ; sudo python3 install.py ; source ~/.bashrc
