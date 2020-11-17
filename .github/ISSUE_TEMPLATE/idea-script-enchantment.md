@@ -2,7 +2,7 @@
 name: IDEA script enchantment
 about: Feature request
 title: "[Feature]"
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---
