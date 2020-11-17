@@ -3,20 +3,20 @@
 GOLOK KU [Python](https://www.python.org/) 3 script to install Graalvm 8/11
 Requirement : All already packaged
 ### Installation
-####Debian-Ubuntu
+#### Debian-Ubuntu
 ```sh
 wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.py ; sudo python3 install.py ; source ~/.bashrc
 ```
-####Termux
+####T ermux
 ```sh
 wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.py ; python3 install.py ; source ~/.bashrc
 ```
-####Windows (Without Command Line)
+#### Windows (Without Command Line)
 ```sh
 Download Graalvm Install script
 Run script
 ```
-####Info 
+#### Info 
 Ubuntu-Debian
 Graavlm located at `/usr/lib/jvm/`
 Termux
