@@ -7,7 +7,7 @@ Requirement : All already packaged
 ```sh
 wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.py ; sudo python3 install.py ; source ~/.bashrc
 ```
-####T ermux
+#### Termux
 ```sh
 wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.py ; python3 install.py ; source ~/.bashrc
 ```
@@ -27,7 +27,7 @@ Graavlm located at `/data/data/com.termux/files/usr/bin/java/`
 ### Todo :
  - ~~Add termux install support~~
  - ~~Add windows install support~~
- - ~~Make Code more readable~~ Thanks @f77-droid
+ - ~~Make Code more readable~~ Thanks [@f77-droid](https://github.com/f77-droid)
  - Add option install location
  - ???
 
