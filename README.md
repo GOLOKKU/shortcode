@@ -17,12 +17,15 @@ Download Graalvm Install script
 Run script
 ```
 #### Info 
+
 Ubuntu-Debian
 Graavlm located at `/usr/lib/jvm/`
+
 Termux
 Graavlm located at `/data/data/com.termux/files/usr/bin/java/`
+
 Windows
-Graavlm located at `/data/data/com.termux/files/usr/bin/java/`
+Graavlm located at `C:\Java`
 
 ### Todo :
  - ~~Add termux install support~~
