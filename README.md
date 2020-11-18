@@ -4,14 +4,10 @@ GOLOK KU [Python](https://www.python.org/) 3 script to install [Graalvm](https:/
 
 ### Feature
  - Install Graalvm java latest version using [Github API](https://docs.github.com/en/free-pro-team@latest/rest)
- - Easy to install only one line
+ - Easy to install only one line command line
  
-### Todo :
- - ~~Add termux install support~~
- - ~~Add windows install support~~
- - ~~Make Code more readable~~ Thanks [@f77-droid](https://github.com/f77-droid)
- - Add option install location
- - ???
+#### [Todo](https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/other/todo.md)
+
 ### Installation
 Requirement : All already packaged
 
