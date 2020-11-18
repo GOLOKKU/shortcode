@@ -2,7 +2,6 @@ import os
 import platform
 import sys
 
-#ReadFile And Find String
 def findString(filename, string):
     for i in open(filename, "r"):
         if string in i:findString.r=i
@@ -11,23 +10,23 @@ def findString(filename, string):
 def exe(command):
     os.system(command)
 
-#main
 def main():
-    #geting Graalvm latest version using github API
     print("Checking graalvm github please wait : ")
     exe("curl https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest -o get.json")
-    x = (str(input("Input java version you want to install (8/11): ")))
-    
-    findString("get.json", f'"name": "graalvm-ce-java{x}-linux-amd64-')
+    x = input("Input java version you want to install (8/11): ")
+    sysos()
+    findString("get.json", f'"name": "graalvm-ce-java{x}-{sysos.systemos}-amd64-')
     v=findString.r[45:-10]
     l=f"graalvm-ce-java{x}-{v}/"
-    findString("get.json", f"graalvm-ce-java{x}-linux-amd64-")
+    findString("get.json", f"graalvm-ce-java{x}-{sysos.systemos}-amd64-")
     a=findString.r[31:-2]
     z =(f"Graalvm{x}.tar.gz")
 
+def sysos():
     k = platform.system()
     print("checking OS please wait")
     if "Linux" in k:
+        systemos="linux"
         if "com.termux" in sys.executable:
             print("Termux detected")
         else:
@@ -35,8 +34,11 @@ def main():
             linux()
         Termux()
     elif "Windows" in k:
+        systemos="windows"
         print("Windows")
         Windows()
+    else:
+        print("Unable to Start")
 
 #Installing on System
 def linux():
@@ -58,7 +60,7 @@ def Termux():
 
 def Windows():
     ps = "powershell"
-    exe(f"{ps} wget ")
+    exe(f"{ps} wget {main.a} -o {main.z}")
     exe(f"{ps} tar -xzf {main.z}")
     exe("mkdir C:\Java")
     exe(f"{ps} mv {main.l}")
