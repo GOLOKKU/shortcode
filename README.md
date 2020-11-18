@@ -1,10 +1,10 @@
 # Graalvm Install script
 
-GOLOK KU [Python](https://www.python.org/) 3 script to install [Graalvm]() 8/11
+GOLOK KU [Python](https://www.python.org/) 3 script to install [Graalvm](https://www.graalvm.org/) 8/11
 
 ### Feature
- - Install Graalvm java latest version using [Github API](https://www.graalvm.org/)
- - Easy to install
+ - Install Graalvm java latest version using [Github API](https://docs.github.com/en/free-pro-team@latest/rest)
+ - Easy to install only one line
  
 ### Todo :
  - ~~Add termux install support~~
