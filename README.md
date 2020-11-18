@@ -9,7 +9,7 @@ GOLOK KU [Python](https://www.python.org/) 3 script to install [Graalvm](https:/
 #### [Todo](https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/other/todo.md)
 
 ### Installation
-Requirement : All already packaged
+Requirement : Internet to download Graalvm
 
 Installation GUIDE
 #### Debian-Ubuntu
