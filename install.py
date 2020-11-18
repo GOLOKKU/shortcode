@@ -1,6 +1,7 @@
 import os
 import platform
 import sys
+import subprocess as su
 
 def findString(filename, string):
     for i in open(filename, "r"):
@@ -10,6 +11,7 @@ def findString(filename, string):
 def exe(command):
     os.system(command)
 
+#main
 def main():
     print("Checking graalvm github please wait : ")
     exe("curl https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest -o get.json")
@@ -25,24 +27,30 @@ def main():
 def sysos():
     k = platform.system()
     print("checking OS please wait")
-    if "Linux" in k:
-        systemos="linux"
-        if "com.termux" in sys.executable:
-            print("Termux detected")
-        else:
-            print("Linux Detected")
-            linux()
+
+    if "com.termux" in sys.executable:
+        print("Termux detected")
         Termux()
+    elif "Linux" in k:
+        systemos="linux"
+        a = su.getoutput("cat /etc/*-release")
+        #still looking for alternative
+        a=(str(a).split("\n")[0]).split("DISTRIB_ID=")[1]
+        if "Ubuntu" or "Debian" in a:
+            print("Debian-Ubuntu Detected")
+            Debian()
+        else:
+            print("Unable to Start Only support Debian-Ubuntu Linux for this time")
     elif "Windows" in k:
         systemos="windows"
-        print("Windows")
+        print("Windows Detected")
         Windows()
     else:
-        print("Unable to Start")
+        print("Unable to Start Only support \nDebian-Ubuntu,Windows,Termux for this time")
 
 #Installing on System
-def linux():
-    exe("sudo apt-get update ; sudo apt-get install gcc zlib1g-dev build-essential unzip")
+def Debian():
+    exe("sudo apt update ; sudo apt install unzip tar")
     exe(f"sudo wget {main.a} -o {main.z}")
     exe(f"tar -xzf {main.z}")
     exe(f"sudo mkdir /usr/lib/jvm ; sudo mv {main.l} /usr/lib/jvm")
@@ -51,7 +59,7 @@ def linux():
 
 def Termux():
     path = "/data/data/com.termux/files/usr/bin/java/"
-    exe("pkg update ; pkg install build-essential unzip")
+    exe("pkg update ; pkg install unzip tar")
     exe(f"wget {main.a} -o {main.z}")
     exe(f"tar -xzf {main.z}")
     exe(f"mkdir {path} ; mv {main.l} {path}")
