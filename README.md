@@ -14,11 +14,11 @@ Requirement : Internet to download Graalvm
 Installation GUIDE
 #### Debian-Ubuntu
 ```sh
-wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.py ; sudo python3 install.py ; source ~/.bashrc
+wget https://raw.githubusercontent.com/GOLOKKU/Graalvm-Java-Install/main/install.py ; sudo python3 install.py ; source ~/.bashrc
 ```
 #### Termux
 ```sh
-wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.py ; python3 install.py ; source ~/.bashrc
+wget https://raw.githubusercontent.com/GOLOKKU/Graalvm-Java-Install/main/install.py ; python3 install.py ; source ~/.bashrc
 ```
 #### Windows (Without Command Line)
 ```sh
