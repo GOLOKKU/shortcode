@@ -47,7 +47,7 @@ def api():
     api.v=findString.r[45:-10]
     api.l=f"graalvm-ce-java{main.x}-{api.v}/"
     findString("get.json", f"graalvm-ce-java{main.x}-{main.systemos}-amd64-")
-    api.a=findString.r[31:-2]
+    api.a=findString.r[31:-9]
     api.z =(f"Graalvm{main.x}.tar.gz")
 
 #Installing on System
