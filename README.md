@@ -14,15 +14,15 @@ Requirement : Internet to download Graalvm
 Installation GUIDE
 #### Debian-Ubuntu
 ```sh
-wget bit.ly/2UHHfEk -o install.py ; sudo python3 install.py ; source ~/.bashrc
+wget bit.ly/2UHHfEk ; mv 2UHHfEk install.py ; sudo python3 install.py ; source ~/.bashrc
 ```
 #### Termux
 ```sh
-wget bit.ly/2UHHfEk -o install.py ; python3 install.py ; source ~/.bashrc
+wget bit.ly/2UHHfEk ; mv 2UHHfEk install.py ; python3 install.py ; source ~/.bashrc
 ```
 #### Windows (powershell with admin)
 ```sh
-wget bit.ly/2UHHfEk -o install.py ; python3 install.py
+wget bit.ly/2UHHfEk ; mv 2UHHfEk install.py ; python3 install.py
 ```
 #### Info 
 
