@@ -5,14 +5,16 @@ GOLOK KU [Python](https://www.python.org/) 3 script to install [Graalvm](https:/
 ### Feature
  - Install Graalvm java latest version using [Github API](https://docs.github.com/en/free-pro-team@latest/rest)
  - Easy to install only one line command line
+ - Linux,Termux,WIndows Support
+ - Project are active
  
 #### [Todo](https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/other/todo.md)
 
 ### Installation
-Requirement : Internet to download Graalvm
+Requirement : Internet to download Graalvm lol
 
 Installation GUIDE
-#### Debian-Ubuntu
+#### Linux
 ```sh
 wget bit.ly/2UHHfEk ; mv 2UHHfEk install.py ; sudo python3 install.py ; source ~/.bashrc
 ```
@@ -35,7 +37,7 @@ Graavlm located at `/data/data/com.termux/files/usr/bin/java/`
 Windows
 Graavlm located at `C:\Java`
 
-Note this is only tested on ubuntu WSL 1 20.04 
+Note version 0.3 are not tested yet
 if you found any problem you can [Report here](https://github.com/GOLOKKU/shortcode/issues)
 
 License [MIT](https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/LICENSE)
