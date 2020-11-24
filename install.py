@@ -1,7 +1,6 @@
 import os
 import platform
 import sys
-import subprocess as sub
 import requests
 from zipfile import ZipFile as zip
 import tarfile as tar
@@ -48,28 +47,30 @@ def search(file, string):
 def cmd(line):
     os.system(line)
 
-def mkdir(loc):
-    os.mkdir(loc)
-
-def mv(loc0, loc1):
-    os.rename(loc0, loc1)
-
 def system():
     pl = platform.system()
     if "Linux" in pl:
         system.os="linux"
+        system.end=("{cwd}/{file}".format (os.getcwd()), api.file)
         if "com.termux" in sys.executable:
             system.path = "/data/data/com.termux/files/usr/bin/java/"
-            print("termux detected")
+            print("Termux detected")
         else:
             system.path = "/usr/bin/java/"
+            print("Linux detected")
     elif "Windows" in pl:
         system.path = "C:\java"
+        system.end=("{cwd}\{file}".format (os.getcwd()), api.file)
         system.os="windows"
-        print("Windows Detected")
+        print("Windows detected")
+    elif "darwin" in pl:
+        system.end=("{cwd}/{file}".format (os.getcwd()), api.file)
+        system.path = "/Library/Java/JavaVirtualMachines"
+        system.os="darwin"
+        print("Mac Detected")
     else:
         print("Unable to Start Only support :"
-        "Linux,Windows,Termux for this time "
+        "Linux,Windows,Termux,Mac for this time "
         "Report to github if you sure this is are bug")
 
 def api():
@@ -93,21 +94,24 @@ def start():
     download(api.link, api.name, f"Downloading {api.name}", 50)
     print("download done")
     unzip(api.name, (os.getcwd()))
-    mkdir(system.path)
-    mv((os.getcwd()), system.path)
+    os.mkdir(system.path)
+    os.rename(system.end, system.path)
     if "linux" in a:
-        cmd(f"echo 'export PATH={system.path}{api.l}/bin:$PATH' >> ~/.bashrc")
-        cmd(f"echo 'export JAVA_HOME={system.path}{api.l}' >> ~/.bashrc")
+        cmd(f"export PATH={system.path}{api.file}/bin:$PATH' >> ~/.bashrc")
+        cmd(f"export JAVA_HOME={system.path}{api.file}' >> ~/.bashrc")
     elif "windows" in a:
-        cmd(f'setx /M PATH "{system.path}\bin;%PATH%"')
-        cmd(f'setx /M JAVA_HOME "{system.path}"')
+        cmd(f'setx /M PATH "{system.path}{api.file}\bin;%PATH%"')
+        cmd(f'setx /M JAVA_HOME "{system.path}{api.file}"')
+    elif "darwin" in a:
+        cmd(f"export PATH={system.path}{api.file}/Contents/Home/bin:$PATH")
+        cmd(f"export JAVA_HOME={system.path}{api.file}/Contents/Home")
 
 def main():
     print("checking graalvm github please wait")
     main.ver=input("Java version to install 8/11 : ")
     system()
     api()
-    start()
+    #start()
     print("Thank you for using our Graalvm install script")
 
 main()
