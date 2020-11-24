@@ -11,12 +11,12 @@ GOLOK KU [Python](https://www.python.org/) 3 script to install [Graalvm](https:/
 #### [Todo](https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/other/todo.md)
 
 ### Installation
-Requirement : Python,Internet to download Graalvm lol
+Requirement : Python,Wget,Internet to download Graalvm lol
 
 Installation GUIDE
 #### Linux-Termux
 ```sh
-wget https://bit.ly/35Wo4wS
+bash <(wget https://bit.ly/35Wo4wS)
 ```
 #### Windows (powershell with admin)
 ```sh
