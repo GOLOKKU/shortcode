@@ -49,7 +49,6 @@ def cmd(line):
 
 def system():
     pl = platform.system()
-    system.end=("{}/{}".format (os.getcwd()), api.file)
     if "Linux" in pl:
         system.os="linux"
         if "com.termux" in sys.executable:
@@ -59,8 +58,7 @@ def system():
             system.path = "/usr/bin/java/"
             print("Linux detected")
     elif "Windows" in pl:
-        system.path = "C:\java"
-        system.end=("{}\{}".format (os.getcwd()), api.file)
+        system.path = "C:/java"
         system.os="windows"
         print("Windows detected")
     elif "darwin" in pl:
@@ -90,10 +88,15 @@ def api():
 
 def start():
     a = system.os
-    download(api.link, api.name, f"Downloading {api.name}", 50)
+    system.end=("{}/{}".format (os.getcwd(), api.file))
+    download(api.link, api.name, f"Downloading {api.file}", 50)
     print("download done")
     unzip(api.name, (os.getcwd()))
-    os.mkdir(system.path)
+    if os.path.exists("C:/java"):
+        print("Directory exist")
+    else:
+        print("Directory are not exist. creating new one")
+        os.mkdir(system.path)
     os.rename(system.end, system.path)
     if "linux" in a:
         cmd(f"export PATH={system.path}{api.file}/bin:$PATH' >> ~/.bashrc")
