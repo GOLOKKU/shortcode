@@ -20,7 +20,9 @@ bash <(wget https://bit.ly/35Wo4wS)
 ```
 #### Windows (powershell with admin)
 ```sh
-wget bit.ly/2UHHfEk ; mv 2UHHfEk install.py ; python3 install.py
+wget bit.ly/2UHHfEk 
+mv 2UHHfEk install.py
+python3 install.py
 ```
 #### Info 
 
