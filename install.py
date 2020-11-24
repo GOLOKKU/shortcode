@@ -49,9 +49,9 @@ def cmd(line):
 
 def system():
     pl = platform.system()
+    system.end=("{}/{}".format (os.getcwd()), api.file)
     if "Linux" in pl:
         system.os="linux"
-        system.end=("{cwd}/{file}".format (os.getcwd()), api.file)
         if "com.termux" in sys.executable:
             system.path = "/data/data/com.termux/files/usr/bin/java/"
             print("Termux detected")
@@ -60,11 +60,10 @@ def system():
             print("Linux detected")
     elif "Windows" in pl:
         system.path = "C:\java"
-        system.end=("{cwd}\{file}".format (os.getcwd()), api.file)
+        system.end=("{}\{}".format (os.getcwd()), api.file)
         system.os="windows"
         print("Windows detected")
     elif "darwin" in pl:
-        system.end=("{cwd}/{file}".format (os.getcwd()), api.file)
         system.path = "/Library/Java/JavaVirtualMachines"
         system.os="darwin"
         print("Mac Detected")
