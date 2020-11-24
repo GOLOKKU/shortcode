@@ -111,7 +111,7 @@ def main():
     main.ver=input("Java version to install 8/11 : ")
     system()
     api()
-    #start()
+    start()
     print("Thank you for using our Graalvm install script")
 
 main()
