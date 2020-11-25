@@ -92,28 +92,28 @@ def start():
     download(api.link, api.name, f"Downloading {api.file}", 50)
     print("download done")
     unzip(api.name, (os.getcwd()))
-    if os.path.exists("C:/java"):
+    if os.path.exists(system.path):
         print("Directory exist")
     else:
         print("Directory are not exist. creating new one")
         os.mkdir(system.path)
     os.rename(system.end, system.path)
     if "linux" in a:
-        cmd(f"export PATH={system.path}{api.file}/bin:$PATH' >> ~/.bashrc")
-        cmd(f"export JAVA_HOME={system.path}{api.file}' >> ~/.bashrc")
+        cmd(f"export PATH={system.end}/bin:$PATH")
+        cmd(f"export JAVA_HOME={system.end}{api.file}")
     elif "windows" in a:
-        cmd(f'setx /M PATH "{system.path}{api.file}\bin;%PATH%"')
-        cmd(f'setx /M JAVA_HOME "{system.path}{api.file}"')
+        cmd(f'setx /M PATH "{system.end}\bin;%PATH%"')
+        cmd(f'setx /M JAVA_HOME "{system.end}"')
     elif "darwin" in a:
-        cmd(f"export PATH={system.path}{api.file}/Contents/Home/bin:$PATH")
-        cmd(f"export JAVA_HOME={system.path}{api.file}/Contents/Home")
+        cmd(f"export PATH={system.end}/Contents/Home/bin:$PATH")
+        cmd(f"export JAVA_HOME={system.end}/Contents/Home")
 
 def main():
     print("checking graalvm github please wait")
     main.ver=input("Java version to install 8/11 : ")
     system()
     api()
-    start()
+    #start()
     print("Thank you for using our Graalvm install script")
 
 main()
