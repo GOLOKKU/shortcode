@@ -4,6 +4,7 @@ import sys
 import requests
 from zipfile import ZipFile as zip
 import tarfile as tar
+import shutil
 
 #PR For zip and tar alternative are welcome
 #or maybe i will implement it soon
@@ -81,39 +82,43 @@ def api():
     api.file=(f"graalvm-ce-java11-{api.ver}")
     api.link=(f"https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-{api.ver}/{api.name}")
 
-    print(api.ver)
-    print(api.name)
-    print(api.file)
-    print(api.link)
-
 def start():
     a = system.os
-    system.end=("{}/{}".format (os.getcwd(), api.file))
-    download(api.link, api.name, f"Downloading {api.file}", 50)
+    output=("{}/{}".format (os.getcwd(), api.file))
+    #wait i forget something
+    if os.path.isfile(api.name):
+        pass
+    else:
+        download(api.link, api.name, f"Downloading {api.file}", 50)
     print("download done")
     unzip(api.name, (os.getcwd()))
     if os.path.exists(system.path):
-        print("Directory exist")
+        unzip(api.name, (os.getcwd()))
     else:
-        print("Directory are not exist. creating new one")
         os.mkdir(system.path)
-    os.rename(system.end, system.path)
+
+    if os.path.exists(system.path):
+        pass
+    else:
+        os.mkdir(system.path)
+    shutil.move(output, system.path)
+    file = ("{}/{}".format (system.path, api.file))
     if "linux" in a:
-        cmd(f"export PATH={system.end}/bin:$PATH")
-        cmd(f"export JAVA_HOME={system.end}{api.file}")
+        cmd(f"echo 'export PATH={system.end}/bin:$PATH' >> ~/.bashrc")
+        cmd(f"echo 'export JAVA_HOME={system.end}' >> ~/.bashrc")
     elif "windows" in a:
         cmd(f'setx /M PATH "{system.end}\bin;%PATH%"')
         cmd(f'setx /M JAVA_HOME "{system.end}"')
     elif "darwin" in a:
-        cmd(f"export PATH={system.end}/Contents/Home/bin:$PATH")
-        cmd(f"export JAVA_HOME={system.end}/Contents/Home")
+        cmd(f"export PATH='{system.end}/Contents/Home/bin:$PATH'")
+        cmd(f"export JAVA_HOME='{system.end}/Contents/Home'")
 
 def main():
     print("checking graalvm github please wait")
     main.ver=input("Java version to install 8/11 : ")
     system()
     api()
-    #start()
+    start()
     print("Thank you for using our Graalvm install script")
 
 main()
