@@ -16,7 +16,7 @@ Requirement : Python,Wget,Internet to download Graalvm lol
 Installation GUIDE
 #### Linux-Termux
 ```sh
-bash <(wget https://bit.ly/35Wo4wS)
+wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.sh ; bash install.sh
 ```
 #### Windows (powershell with admin)
 ```sh
