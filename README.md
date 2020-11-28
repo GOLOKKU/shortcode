@@ -18,11 +18,9 @@ Installation GUIDE
 ```sh
 wget https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.sh ; bash install.sh
 ```
-#### Windows (powershell with admin)
+#### Windows
 ```sh
-wget bit.ly/2UHHfEk 
-mv 2UHHfEk install.py
-python3 install.py
+Download file from this link : " https://github.com/GOLOKKU/Graalvm-Java-Install/blob/main/install.bat "
 ```
 #### Info 
 
