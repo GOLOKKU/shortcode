@@ -90,7 +90,7 @@ def start():
     #added check if download are corrupted
     if os.path.isfile(api.name):
         site = urllib.request.urlopen(api.link)
-        if site.length == os.stat('run.bat').st_size:
+        if site.length == os.stat(api.name).st_size:
             pass
         else:
             print("file you downloaded before are corrupted")
