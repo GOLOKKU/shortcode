@@ -1,7 +1,10 @@
+#!/bin/sh
 wget https://raw.githubusercontent.com/GOLOKKU/Graalvm-Java-Install/main/install.py
-if [ -d "$/data/data/com.termux" ]; then
+a=$(python)
+if [ -n "$a" ]; then
   python3 install.py
-else 
-  sudo python3 install.py
+else
+  apt install python3
+  python3 install.py
 fi
 bash
