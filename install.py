@@ -76,8 +76,8 @@ def api():
     #PR without downloading github api data are welcome
     #or maybe i will implement it soon
     download("https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest", "Api.json", "Getting Github Data info ", 3)
-
-    search("get.json", f'"name": "graalvm-ce-java{main.ver}-{system.os}-amd64-')
+    api.cpu=((platform.uname()[4]).lower())
+    search("get.json", f'"name": "graalvm-ce-java{main.ver}-{system.os}-{api.cpu}-')
     api.name=search.r[15:-10]
     api.ver=search.r[47:-14]
     api.file=(f"graalvm-ce-java11-{api.ver}")
@@ -87,6 +87,7 @@ def start():
     endfile=f"{system.path}/{api.file}"
     a = system.os
     output=("{}/{}".format (os.getcwd(), api.file))
+
     #added check if download are corrupted
     if os.path.isfile(api.name):
         site = urllib.request.urlopen(api.link)
@@ -104,6 +105,7 @@ def start():
     else:
         os.mkdir(system.path)
         unzip(api.name, (os.getcwd()))
+
     shutil.move(output, system.path)
     file = ("{}/{}".format (system.path, api.file))
     if "linux" in a:
