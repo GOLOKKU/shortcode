@@ -46,9 +46,6 @@ def search(file, string):
         if string in i:
             search.r=i
 
-def cmd(line):
-    os.system(line)
-
 def system():
     pl = platform.system()
     if "Linux" in pl:
@@ -75,7 +72,7 @@ def system():
 def api():
     #PR without downloading github api data are welcome
     #or maybe i will implement it soon
-    download("https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest", "Api.json", "Getting Github Data info ", 3)
+    os.system("curl https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest -o Api.json")
     api.cpu=((platform.uname()[4]).lower())
     search("Api.json", f'"name": "graalvm-ce-java{main.ver}-{system.os}-{api.cpu}-')
     api.name=search.r[15:-10]
@@ -98,25 +95,28 @@ def start():
             download(api.link, api.name, f"Downloading {api.file}", 50)
     else:
         download(api.link, api.name, f"Downloading {api.file}", 50)
-    print("download done")
+    print("Download done, Exctracting file")
     unzip(api.name, (os.getcwd()))
     if os.path.exists(system.path):
         unzip(api.name, (os.getcwd()))
     else:
         os.mkdir(system.path)
         unzip(api.name, (os.getcwd()))
-
-    shutil.move(output, system.path)
+    if os.path.exists(f"{system.path}/{api.file}"):
+        pass
+    else:
+        shutil.move(output, system.path)
     file = ("{}/{}".format (system.path, api.file))
+    print("Adding gravaalm java path")
     if "linux" in a:
-        cmd(f"echo 'export PATH={endfile}/bin:$PATH' >> ~/.bashrc")
-        cmd(f"echo 'export JAVA_HOME={endfile}' >> ~/.bashrc")
+        os.system(f"echo 'export PATH={endfile}/bin:$PATH' >> ~/.bashrc")
+        os.system(f"echo 'export JAVA_HOME={endfile}' >> ~/.bashrc")
     elif "windows" in a:
-        cmd(f'setx /M PATH "{endfile}\bin;%PATH%"')
-        cmd(f'setx /M JAVA_HOME "{endfile}"')
+        os.system(f'setx /M PATH "{endfile}\bin;%PATH%"')
+        os.system(f'setx /M JAVA_HOME "{endfile}"')
     elif "darwin" in a:
-        cmd(f"export PATH='{endfile}/Contents/Home/bin:$PATH'")
-        cmd(f"export JAVA_HOME='{endfile}/Contents/Home'")
+        os.system(f"export PATH='{endfile}/Contents/Home/bin:$PATH'")
+        os.system(f"export JAVA_HOME='{endfile}/Contents/Home'")
 
 def main():
     print("checking graalvm github please wait")
