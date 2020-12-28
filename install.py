@@ -77,7 +77,7 @@ def api():
     #or maybe i will implement it soon
     download("https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest", "Api.json", "Getting Github Data info ", 3)
     api.cpu=((platform.uname()[4]).lower())
-    search("get.json", f'"name": "graalvm-ce-java{main.ver}-{system.os}-{api.cpu}-')
+    search("Api.json", f'"name": "graalvm-ce-java{main.ver}-{system.os}-{api.cpu}-')
     api.name=search.r[15:-10]
     api.ver=search.r[47:-14]
     api.file=(f"graalvm-ce-java11-{api.ver}")
@@ -94,7 +94,7 @@ def start():
         if site.length == os.stat(api.name).st_size:
             pass
         else:
-            print("file you downloaded before are corrupted")
+            print("ReDownloading")
             download(api.link, api.name, f"Downloading {api.file}", 50)
     else:
         download(api.link, api.name, f"Downloading {api.file}", 50)
