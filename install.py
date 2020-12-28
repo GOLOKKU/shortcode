@@ -46,6 +46,9 @@ def search(file, string):
         if string in i:
             search.r=i
 
+def cmd(line):
+    os.system(line)
+
 def system():
     pl = platform.system()
     if "Linux" in pl:
@@ -106,14 +109,14 @@ def start():
     shutil.move(output, system.path)
     file = ("{}/{}".format (system.path, api.file))
     if "linux" in a:
-        os.system(f"echo 'export PATH={endfile}/bin:$PATH' >> ~/.bashrc")
-        os.system(f"echo 'export JAVA_HOME={endfile}' >> ~/.bashrc")
+        cmd(f"echo 'export PATH={endfile}/bin:$PATH' >> ~/.bashrc")
+        cmd(f"echo 'export JAVA_HOME={endfile}' >> ~/.bashrc")
     elif "windows" in a:
-        os.system(f'setx /M PATH "{endfile}\bin;%PATH%"')
-        os.system(f'setx /M JAVA_HOME "{endfile}"')
+        cmd(f'setx /M PATH "{endfile}\bin;%PATH%"')
+        cmd(f'setx /M JAVA_HOME "{endfile}"')
     elif "darwin" in a:
-        os.system(f"export PATH='{endfile}/Contents/Home/bin:$PATH'")
-        os.system(f"export JAVA_HOME='{endfile}/Contents/Home'")
+        cmd(f"export PATH='{endfile}/Contents/Home/bin:$PATH'")
+        cmd(f"export JAVA_HOME='{endfile}/Contents/Home'")
 
 def main():
     print("checking graalvm github please wait")
