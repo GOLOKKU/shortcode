@@ -34,7 +34,7 @@ Not tested
 
 Windows
 Graavlm located at `C:\Java`
-Not tested
+Tested
 
 if you found any problem you can [Report here](https://github.com/GOLOKKU/shortcode/issues)
 
