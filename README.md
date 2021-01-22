@@ -25,16 +25,13 @@ install.bat
 #### Info 
 
 Ubuntu-Debian
-Graavlm located at `/usr/lib/jvm/`
-Not tested
+Graavlm located at `/usr/lib/jvm/`    Not tested
 
 Termux
-Graavlm located at `/data/data/com.termux/files/usr/bin/java/`
-Not tested
+Graavlm located at `/data/data/com.termux/files/usr/bin/java/`   Not tested
 
 Windows
-Graavlm located at `C:\Java`
-Tested
+Graavlm located at `C:\Java`  Tested
 
 if you found any problem you can [Report here](https://github.com/GOLOKKU/shortcode/issues)
 
