@@ -15,12 +15,11 @@ Requirement : Python,Wget,Curl,Internet to download Graalvm lol
 Installation GUIDE
 #### Linux-Termux
 ```sh
-wget https://raw.githubusercontent.com/GOLOKKU/Graalvm-Java-Install/main/install.sh ; bash install.sh
+wget https://raw.githubusercontent.com/GOLOKKU/Graalvm-Java-Install/main/install.py ; python install.py
 ```
 #### Windows (cmd run as admin)
 ```sh
-Powershell wget https://raw.githubusercontent.com/GOLOKKU/Graalvm-Java-Install/main/install.bat
-install.bat
+wget https://raw.githubusercontent.com/GOLOKKU/Graalvm-Java-Install/main/install.py ; python install.py
 ```
 #### Info 
 
@@ -31,7 +30,7 @@ Termux
 Graavlm located at `/data/data/com.termux/files/usr/bin/java/`   Not tested
 
 Windows
-Graavlm located at `C:\Java`  Tested
+Graavlm located at `C:\Java`  Not tested
 
 if you found any problem you can [Report here](https://github.com/GOLOKKU/shortcode/issues)
 
