@@ -6,8 +6,7 @@ from zipfile import ZipFile as zip
 import platform
 import json
 
-apireturn=""
-version="11"
+version=int(input("Input version : "))
 workdir="/".join(os.getcwd().split("\\"))
 def unzip(loc, output):
     if loc.endswith("zip"):
