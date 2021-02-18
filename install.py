@@ -1,14 +1,14 @@
 import os
-import platform
 import sys
 import requests
-from zipfile import ZipFile as zip
 import tarfile as tar
-import shutil
-import urllib.request
+from zipfile import ZipFile as zip
+import platform
+import json
 
-#PR For zip and tar alternative are welcome
-#or maybe i will implement it soon
+apireturn=""
+version="11"
+workdir="/".join(os.getcwd().split("\\"))
 def unzip(loc, output):
     if loc.endswith("zip"):
         zap=zip(loc, 'r')
@@ -34,96 +34,67 @@ def download(url, save, msg, long):
             downloaded = 0
             total = int(total)
             for data in response.iter_content(chunk_size=max(int(total/1000), 1024*1024)):
+                perc1= int(downloaded / (1024 ** 2))
+                perc2= int(total / (1024 ** 2))
                 downloaded += len(data)
                 f.write(data)
                 done = int(long*downloaded/total)
-                sys.stdout.write('\r{} [{}{}]'.format(msg,'█' * done, '.' * (long-done)))
+                sys.stdout.write('\r{} [{}{}] {}'.format(msg,'█' * done, '.' * (long-done), (f"{done}% {perc1}/{perc2}")))
                 sys.stdout.flush()
     sys.stdout.write('\n')
 
-def search(file, string):
-    for i in open(file, "r"):
-        if string in i:
-            search.r=i
-
-def system():
-    pl = platform.system()
-    if "Linux" in pl:
-        system.os="linux"
-        if "com.termux" in sys.executable:
-            system.path = "/data/data/com.termux/files/usr/bin/java/"
-            print("Termux detected")
-        else:
-            system.path = "/usr/bin/java/"
-            print("Linux detected")
-    elif "Windows" in pl:
-        system.path = "C:/java"
-        system.os="windows"
-        print("Windows detected")
-    elif "darwin" in pl:
-        system.path = "/Library/Java/JavaVirtualMachines"
-        system.os="darwin"
-        print("Mac Detected")
+#getcpu info
+pl = platform.system()
+cpu=((platform.uname()[4]).lower())
+if "Linux" in pl:
+    ops="linux"
+    if "com.termux" in sys.executable:
+        path = "/data/data/com.termux/files/usr/bin/java/"
     else:
-        print("Unable to Start Only support :"
-        "Linux,Windows,Termux,Mac for this time "
-        "Report to github if you sure this is are bug")
+        path = "/usr/bin/java/"
+elif "Windows" in pl:
+    path = "C:/java/"
+    ops="windows"
+elif "darwin" in pl:
+    path = "/Library/Java/JavaVirtualMachines"
+    ops="darwin"
+else:
+    print("Unable to Start Only support :"
+    "Linux,Windows,Termux,Mac for this time "
+    "Report to github if you sure this is are bug")
 
-def api():
-    #PR without downloading github api data are welcome
-    #or maybe i will implement it soon
-    os.system("curl https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest -o Api.json")
-    api.cpu=((platform.uname()[4]).lower())
-    search("Api.json", f'"name": "graalvm-ce-java{main.ver}-{system.os}-{api.cpu}-')
-    api.name=search.r[15:-10]
-    api.ver=search.r[47:-14]
-    api.file=(f"graalvm-ce-java11-{api.ver}")
-    api.link=(f"https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-{api.ver}/{api.name}")
+if "x86_64" or "amd64" in cpu:
+    cpu= "amd64"
+elif "aarch64" in cpu:
+    cpu= "aarch64"
+else:
+    print(f'{cpu} unknown CPU architecture')
 
-def start():
-    endfile=f"{system.path}/{api.file}"
-    a = system.os
-    output=("{}/{}".format (os.getcwd(), api.file))
+#link download
+apireturn = requests.get("https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest").text
+build=(json.loads(apireturn)["tag_name"])[3:]
+file=f"graalvm-ce-java{version}-{ops}-{cpu}-{build}"
+link=(apireturn[(
+    apireturn.find(f"https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-{build}/{file}")):]
+    .split('"')[0]
+)
 
-    #added check if download are corrupted
-    if os.path.isfile(api.name):
-        site = urllib.request.urlopen(api.link)
-        if site.length == os.stat(api.name).st_size:
-            pass
-        else:
-            print("ReDownloading")
-            download(api.link, api.name, f"Downloading {api.file}", 50)
-    else:
-        download(api.link, api.name, f"Downloading {api.file}", 50)
-    print("Download done, Exctracting file")
-    unzip(api.name, (os.getcwd()))
-    if os.path.exists(system.path):
-        unzip(api.name, (os.getcwd()))
-    else:
-        os.mkdir(system.path)
-        unzip(api.name, (os.getcwd()))
-    if os.path.exists(f"{system.path}/{api.file}"):
-        pass
-    else:
-        shutil.move(output, system.path)
-    file = ("{}/{}".format (system.path, api.file))
-    print("Adding gravaalm java path")
-    if "linux" in a:
-        os.system(f"echo 'export PATH={endfile}/bin:$PATH' >> ~/.bashrc")
-        os.system(f"echo 'export JAVA_HOME={endfile}' >> ~/.bashrc")
-    elif "windows" in a:
-        os.system(f'setx /M PATH "{endfile}\bin;%PATH%"')
-        os.system(f'setx /M JAVA_HOME "{endfile}"')
-    elif "darwin" in a:
-        os.system(f"export PATH='{endfile}/Contents/Home/bin:$PATH'")
-        os.system(f"export JAVA_HOME='{endfile}/Contents/Home'")
+print("downloading file")
+output=link.split("/"[-1])
+endfile=f"{path}{file}/"
+print(endfile)
+if os.path.isfile(path) is False: os.mkdir(path)
+if os.path.isfile(output) is False : download(link, output, "mendownload gravaalm", 50)
+print("Unzipping file . . .")
+unzip(output, endfile)
 
-def main():
-    print("checking graalvm github please wait")
-    main.ver=input("Java version to install 8/11 : ")
-    system()
-    api()
-    start()
-    print("Thank you for using our Graalvm install script")
-
-main()
+#installation
+if "linux" == ops:
+    os.system(f"echo 'export PATH={endfile}/bin:$PATH' >> ~/.bashrc")
+    os.system(f"echo 'export JAVA_HOME={endfile}' >> ~/.bashrc")
+elif "windows" == ops:
+    os.system(f'setx /M PATH "{endfile}\bin;%PATH%"')
+    os.system(f'setx /M JAVA_HOME "{endfile}"')
+elif "darwin" == ops:
+    os.system(f"export PATH='{endfile}/Contents/Home/bin:$PATH'")
+    os.system(f"export JAVA_HOME='{endfile}/Contents/Home'")
