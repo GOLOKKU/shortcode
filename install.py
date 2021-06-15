@@ -1,13 +1,25 @@
-import os
-import sys
-import requests
+import argparse
 import tarfile as tar
-from zipfile import ZipFile as zip
+import requests
 import platform
 import json
+import os
+import hashlib
+from zipfile import ZipFile as zip
 
-version=int(input("Input version : "))
-workdir="/".join(os.getcwd().split("\\"))
+#arg parser
+
+parser = argparse.ArgumentParser(description = 'Graalvm install script usage')
+parser.add_argument('-java', default=11, type=int,
+                    help='example : java version 11 `-java 11`')
+parser.add_argument('-version', default="latest" ,type=str,
+                    help='example : graalvm version 21.1.0 `-version 21.1.0`')
+parser.add_argument('-path', default="default" ,type=str,
+                    help=f'example : path installation `-path /usr/lib/jvm/java11-graalvm-21.1.0`')
+
+args = parser.parse_args()
+
+#function
 def unzip(loc, output):
     if loc.endswith("zip"):
         zap=zip(loc, 'r')
@@ -29,6 +41,7 @@ def download(url, save, msg, long):
 
         if total is None:
             f.write(response.content)
+
         else:
             downloaded = 0
             total = int(total)
@@ -38,62 +51,78 @@ def download(url, save, msg, long):
                 downloaded += len(data)
                 f.write(data)
                 done = int(long*downloaded/total)
-                sys.stdout.write('\r{} [{}{}] {}'.format(msg,'█' * done, '.' * (long-done), (f"{done}% {perc1}/{perc2}")))
-                sys.stdout.flush()
-    sys.stdout.write('\n')
+                print('{} [{}{}] {}% {}M/{}M'.format(msg,'█' * done, '.' * (long-done), done, perc1, perc2))
+    print('Done')
 
-#getcpu info
-pl = platform.system()
+#checking system
+operating_system = platform.system().lower()
 cpu=((platform.uname()[4]).lower())
-if "Linux" in pl:
-    ops="linux"
-    if "com.termux" in sys.executable:
-        path = "/data/data/com.termux/files/usr/bin/java/"
-    else:
-        path = "/usr/bin/java/"
-elif "Windows" in pl:
-    path = "C:/java/"
-    ops="windows"
-elif "darwin" in pl:
-    path = "/Library/Java/JavaVirtualMachines"
-    ops="darwin"
+
+if (args.version=="latest"): 
+    apireturn = requests.get("https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest").text
+    version=(json.loads(apireturn)["tag_name"])[3:]
+
 else:
-    print("Unable to Start Only support :"
-    "Linux,Windows,Termux,Mac for this time "
-    "Report to github if you sure this is are bug")
+    version=args.version
 
-if "x86_64" or "amd64" in cpu:
-    cpu= "amd64"
-elif "aarch64" in cpu:
-    cpu= "aarch64"
+if cpu=="x86_64": cpu= "amd64"
+
+if "linux" in operating_system:
+    default_path = f"/usr/lib/jvm"
+    setpath1=f'echo \'export PATH="/usr/lib/jvm/graalvm-ce-java{args.java}-{version}/bin:$PATH"\' >> /etc/profile'
+    setpath2=f'echo \'export JAVA_HOME="/usr/lib/jvm/graalvm-ce-java{args.java}-{version}"\' >> /etc/profile'
+
+elif "windows" in operating_system:
+    default_path = f"C:/java"
+    setpath1=f'setx /M PATH "C:/java/graalvm-ce-java{args.java}-{version}/bin;%PATH%"'
+    setpath2=f'setx /M JAVA_HOME "C:/java/graalvm-ce-java{args.java}-{version}"'
+
+elif "darwin" in operating_system:
+    default_path = f"/Library/Java"
+    setpath1=f'export PATH=/Library/Java/java{args.java}-graalvm-{version}/Contents/Home/bin:$PATH'
+    setpath2=f'export JAVA_HOME=/Library/Java/java{args.java}-graalvm-{version}/Contents/Home'
+
 else:
-    print(f'{cpu} unknown CPU architecture')
+    print("Unkown os")
+    exit()
 
-#link download
-apireturn = requests.get("https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/latest").text
-build=(json.loads(apireturn)["tag_name"])[3:]
-file=f"graalvm-ce-java{version}-{ops}-{cpu}-{build}"
-link=(apireturn[(
-    apireturn.find(f"https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-{build}/{file}")):]
-    .split('"')[0]
-)
+print(f"Detected os : {operating_system}")
 
-print("downloading file")
-output=link.split("/"[-1])
-endfile=f"{path}{file}/"
-print(endfile)
-if os.path.isfile(path) is False: os.mkdir(path)
-if os.path.isfile(output) is False : download(link, output, "mendownload gravaalm", 50)
-print("Unzipping file . . .")
-unzip(output, endfile)
+if (args.path=="default"): path=default_path
+else: path=args.path
+
+search=f"https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-{version}/" \
+       f"graalvm-ce-java{args.java}-{operating_system}-{cpu}-{version}"
+
+release_list=requests.get(f"https://api.github.com/repos/graalvm/graalvm-ce-builds/releases/tags/vm-{version}").text
+if "message" in release_list: 
+    print("Version not found")
+    exit()
+
+link=((release_list[release_list.find(search):]).split('"')[0])
+output=("{}/{}".format (path, link.split('/')[-1]))
+
+os.makedirs(path, exist_ok=True)
+if (os.path.isfile(output) == False): download(link, output, "Downloading graalvm", 100)
+print("Downloading done")
+
+if (os.path.isfile(output+".sha256") == False): download(link+".sha256", output+".sha256", "Downloading graalvm checksum", 100)
 
 #installation
-if "linux" == ops:
-    os.system(f"echo 'export PATH={endfile}/bin:$PATH' >> ~/.bashrc")
-    os.system(f"echo 'export JAVA_HOME={endfile}' >> ~/.bashrc")
-elif "windows" == ops:
-    os.system(f'setx /M PATH "{endfile}\bin;%PATH%"')
-    os.system(f'setx /M JAVA_HOME "{endfile}"')
-elif "darwin" == ops:
-    os.system(f"export PATH='{endfile}/Contents/Home/bin:$PATH'")
-    os.system(f"export JAVA_HOME='{endfile}/Contents/Home'")
+sha256_hash = hashlib.sha256()
+with open(output,"rb") as f:
+    for byte_block in iter(lambda: f.read(4096),b""):
+        sha256_hash.update(byte_block)
+
+if (open(output+".sha256", "r").read() == sha256_hash.hexdigest()) == False:
+    print("checksum does not match. please try redownload graalvm")
+    exit()
+
+print("Checksum done")
+unzip(output, path)
+print("Unzip done")
+
+os.system(setpath1)
+os.system(setpath2)
+
+print("Done added to PATH environment variable")
